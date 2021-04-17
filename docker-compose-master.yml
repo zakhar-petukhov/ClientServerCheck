@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  server:
+    build: .
+    ports:
+      - "4567:4567"
+    volumes:
+      - .:/go/src/app
+
+  nginx:
+    build: "./nginx"
+    ports:
+      - "80:80"
+    depends_on:
+      - "server"
