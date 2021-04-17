@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Количество людей</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .counter {
+            margin: 200px auto;
+            border: 1px solid #fff;
+            background: #3cb583;
+            display: table;
+        }
+
+        .text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            padding: 8px 12px 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="counter">
+    <div class="text">Пользователей в сети: <span id="counter"></span></div>
+</div>
+<script>
+    const counter = document.getElementById('counter');
+
+    const ws = new WebSocket('ws://' + window.location.host + '/ws');
+    ws.onopen = (evt) => {
+        console.log('onopen', evt);
+    };
+
+    ws.onmessage = (evt) => {
+        console.log('onmessage', evt);
+        counter.innerText = `${JSON.parse(evt.data).counter}`;
+    };
+
+    ws.onclose = (evt) => {
+        console.log('onclose', evt);
+    };
+
+    ws.onerror = (err) => {
+        console.error(err);
+    };
+</script>
+</body>
+</html>
